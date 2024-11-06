@@ -1,88 +1,83 @@
-# Teste prático para Back-End 
-***
+# Projeto Laravel com Docker e Horizon
 
-Bem-vindo.
+## Pré-requisitos
 
-Usarei esse teste para avaliar tecnicamente todas as pessoas que estão participando do nosso processo seletivo para a vaga de desenvolvedor full stack, lembrando que a aplicação de patterns como service e repository e processamento de filas assíncronas com horizon fazem diferença. O prazo de execução é de 3 dias corridos a partir do momento que o teste foi encaminhado para você, se tiver alguma duvida pergunte. O teste deve ter um read-me que explique o projeto e como rodá-lo.
+- **PHP** ^8.1
+- **Node.js** >=12
+- **Docker**
 
-## TL;DR
+## Configuração Inicial
 
-- Você deverá criar um comando artisan que se comunicará com uma outra API para importar em seu banco de dados;
-- Você deverá criar o front-end do CRUD (Criação, Leitura, Atualização e Deleção) no sistema de gerenciamento de biblioteca. Você poderá escolher entre utilizar React ou Blade no front-end, junto com bibliotecas de estilização como Tailwind CSS ou Bootstrap.
+1. **Instalação de pacotes:**
+   ```bash
+   composer install
+   npm install
 
-## Começando
 
-**Faça um fork desse projeto para iniciar o desenvolvimento. PRs não serão aceitos.**
+2. **Configuração do Ambiente (.env):**
 
-### Configuração do ambiente
+	Copie o arquivo .env.example e renomeie para .env.
 
-**Setup laravel conforme a documentação pode usar qualquer opção usando 'Valet, artisan serve ou docker'.**
+	Atualize as variáveis principais no novo .env:
 
-### Funcionalidades a serem implementadas
+	```bash
+	DB_CONNECTION=mysql
+	DB_HOST=mysql
+	DB_PORT=3306
+	DB_DATABASE=laravel
+	DB_USERNAME=sail
+	DB_PASSWORD=password
 
-Através da inteface o usuário deverá ser capaz de:
-- Fazer login
-- Editar dados pessoais (Email, nome, telefone...)
-- Criar categorias
-- Editar categorias
-- Criar produtos
-- Editar produtos
-- Ter uma opção de migrar produtos bem como as categorias da API que será conectada (Requisito explicado logo abaixo).
+	BROADCAST_DRIVER=log
+	CACHE_DRIVER=file
+	FILESYSTEM_DISK=local
+	QUEUE_CONNECTION=redis
+	SESSION_DRIVER=file
+	SESSION_LIFETIME=120
 
-##### CRUD produtos
+	MEMCACHED_HOST=127.0.0.1
 
-Aqui você deverá desenvolver as principais operações para o gerenciamento de um catálogo de produtos, sendo elas:
+	REDIS_HOST=redis
+	REDIS_PASSWORD=null
+	REDIS_PORT=6379
 
-- Criação
-- Atualização
-- Exclusão
+3. **Iniciar Containers Docker:**
 
-O produto deve ter a seguinte estrutura:
+	```bash
+	./vendor/bin/sail up
 
-Campo       | Tipo      | Obrigatório   | Pode se repetir
------------ | :------:  | :------:      | :------:
-id          | int       | true          | false
-name        | string    | true          | false        
-price       | float     | true          | true
-decription  | text      | true          | true
-category    | string    | true          | true
-image_url   | url       | false         | true
+4. **Gerar chave da aplicação:**
 
-Os endpoints de criação e atualização devem seguir o seguinte formato de payload:
+	```bash
+	./vendor/bin/sail artisan key:generate
 
-```json
-{
-    "name": "product name",
-    "price": 109.95,
-    "description": "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...",
-    "category": "test",
-    "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
-}
-```
+5. **Migrar banco de dados:**
 
-**Importante:** Tanto os endpoints de criação é atualização, deverão ter uma camada de validação dos campos.
+	```bash
+	./vendor/bin/sail artisan migrate
 
-##### Buscas de produtos
+6. **Executar frontend e Laravel Horizon:**
 
-Para realizar a manutenção de um catálogo de produtos é necessário que o sistema tenha algumas buscas, sendo elas:
+	Frontend: 
+	```bash
+	npm run dev
 
-- Busca pelos campos `name` e `category` (trazer resultados que batem com ambos os campos).
-- Busca por uma categoria específica.
-- Busca de produtos com e sem imagem.
-- Buscar um produto pelo seu ID único.
+	Horizon:
+	```bash
+	./vendor/bin/sail artisan horizon
 
-##### Importação de produtos de uma API externa
+7. **Importação de Produtos**
+7.1 **Importar todos os produtos:**
 
-É necessário que o sistema seja capaz de importar produtos que estão em um outro serviço. Deverá ser criado um comando que buscará produtos nessa API e armazenará os resultados para a sua base de dados. 
+	```bash
+	./vendor/bin/sail artisan products:import
 
-Sugestão: `php artisan products:import`
+7.2 **Importar um produto específico:**
 
-Esse comando deverá ter uma opção de importar um único produto da API externa, que será encontrado através de um ID externo.
+	```bash
+	./vendor/bin/sail artisan products:import --id=1
 
-Sugestão: `php artisan products:import --id=123`
+8 **Execute os testes unitários com:**
 
-Utilize a seguinte API para importar os produtos: [https://fakestoreapi.com/docs](https://fakestoreapi.com/docs)
-
----
-
-Se houver dúvidas, por favor, abra uma issue nesse repositório.
+	```bash
+	./vendor/bin/sail test
