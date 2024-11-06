@@ -6,7 +6,7 @@
                 <label for="allowEmptyImages">Allow empty images</label>
                 <input wire:model.live="allowEmptyImages" id="allowEmptyImages" type="checkbox" class="rounded">
             </div>
-            <select wire:model.live="category" class="w-[150px] block px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
+            <select wire:model.live="category" class="w-[250px] block px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
                 <option value="" default selected>All categories</option>
                 @forelse ($categories as $category)
                     <option value="{{ $category }}">{{ $category }}</option>
@@ -22,7 +22,7 @@
             />
         </div>
     </div>
-    <div class="flex flex-wrap -m-4">
+    <div class="flex flex-wrap -m-4 justify-center">
         @forelse ($products as $product)
             <div class="w-full sm:w-1/2 md:w-1/3 lg:w-1/4 p-4">
                 <div class="max-w-sm mx-auto bg-white shadow-md rounded-lg overflow-hidden flex flex-col h-full">
@@ -39,7 +39,7 @@
                 </div>
             </div>
         @empty
-            <p>No products found.</p>
+            <p class="p-6">No products found.</p>
         @endforelse
     </div>
     <div class="mt-6">

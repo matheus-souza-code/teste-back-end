@@ -39,7 +39,7 @@
     <x-custom-modal id="custom-modal">
         <form id="category-form" method="POST">
             @csrf
-            <h2 class="text-lg font-medium text-gray-900">Add a new category</h2>
+            <h2 id="modal-title" class="text-lg font-medium text-gray-900">Add a new category</h2>
             <div class="p-4">
                 <div class="text-left">
                     <x-input-label value="Name"/>
@@ -57,8 +57,11 @@
                 <x-danger-button id="delete-button" type="button">Delete</x-danger-button>
                 <div class="flex gap-2">
                     <x-secondary-button type="button" class="close-modal">Cancel</x-secondary-button>
-                    <x-primary-button type="button">Confirm</x-primary-button>
+                    <x-primary-button type="submit">Confirm</x-primary-button>
                 </div>
+            </div>
+            <div id="warning-text" class="text-sm text-center pt-2">
+                <span>Changing the category affects all related products</span>
             </div>
         </form>
     </x-custom-modal>
@@ -78,7 +81,7 @@
 
                 selectedCategory = JSON.parse(category) ?? null;
 
-                organizeActionButtons();
+                organizeModal();
 
                 $('#input-name').val(selectedCategory?.name || '');
             });
@@ -92,7 +95,7 @@
                 let actionUrl = selectedCategory 
                     ? `{{ route('categories.update', '') }}/${selectedCategory.id}` 
                     : '{{ route('categories.store') }}';
-                
+                console.log(actionUrl);
                 $.ajax({
                     url: actionUrl,
                     type: selectedCategory ? 'PUT' : 'POST',
@@ -145,15 +148,20 @@
                 $('#overlay').addClass('hidden');
             }
 
-            function organizeActionButtons() {
+            function organizeModal() {
                 const actionButtons = $('#action-buttons');
     	        const deleteButton = $('#delete-button');
+    	        const warningText = $('#warning-text');
+    	        const modalTitle = $('#modal-title');
 
     	        deleteButton.toggleClass('hidden', !selectedCategory);
+    	        warningText.toggleClass('hidden', !selectedCategory);
 
                 if (selectedCategory) {
+                    modalTitle.text('Edit category');
                     actionButtons.removeClass('justify-end').addClass('justify-between');
                 } else {
+                    modalTitle.text('Add category');
                     actionButtons.removeClass('justify-between').addClass('justify-end');
                 }
             }
