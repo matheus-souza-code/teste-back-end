@@ -17,9 +17,14 @@ return new class extends Migration
             $table->float('price');
             $table->text('description');
             $table->string('category');
-            $table->foreign('category')->references('name')->on('categories');
             $table->string('image_url');
             $table->timestamps();
+
+            $table->foreign('category')
+                ->references('name')
+                ->on('categories')
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
         });
     }
 

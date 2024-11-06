@@ -47,14 +47,20 @@ class ImportProducts implements ShouldQueue
             if ($response->failed()) {
                 throw new Exception("Failed to fetch product data for ID {$this->productId}");
             }
-    
+            
             $productsData = $response->json();
-    
-            foreach ($productsData as $productData) {
-                $this->importCategory($productData['category']);
-                $this->importProduct($productData);
+
+
+            if(!$this->productId) {
+                foreach ($productsData as $productData) {
+                    $this->importCategory($productData['category']);
+                    $this->importProduct($productData);
+                }
+            } else {
+                $this->importCategory($productsData['category']);
+                $this->importProduct($productsData);
             }
-    
+
         } catch (Exception $e) {
             Log::error($e->getMessage());
         }
@@ -69,9 +75,7 @@ class ImportProducts implements ShouldQueue
             if ($categoryResponse->status() !== 200) {
                 throw new Exception('Failed to import category');
             }
-    
-            return $categoryResponse->getData()->data;
-    
+        
         } catch (Exception $e) {
             Log::error("Category import failed: " . $e->getMessage());
             throw $e;
