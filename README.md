@@ -13,7 +13,6 @@
    composer install
    npm install
 
-
 2. **Configuração do Ambiente (.env):**
 
 	Copie o arquivo .env.example e renomeie para .env.
@@ -61,23 +60,20 @@
 	Frontend: 
 	```bash
 	npm run dev
-
+    ```
 	Horizon:
-	```bash
+    ```bash
 	./vendor/bin/sail artisan horizon
 
 7. **Importação de Produtos**
 7.1 **Importar todos os produtos:**
 
-	```bash
 	./vendor/bin/sail artisan products:import
 
 7.2 **Importar um produto específico:**
 
-	```bash
 	./vendor/bin/sail artisan products:import --id=1
 
 8 **Execute os testes unitários com:**
 
-	```bash
 	./vendor/bin/sail test
