@@ -23,9 +23,9 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255', 'unique:products,name'],
-            'price' => ['required', 'numeric', 'between:0,999999.99'],
-            'description' => ['required', 'string', 'max:1000'],
-            'category' => ['required', 'exists:categories,name'],
+            'price' => ['nullable', 'numeric', 'between:0,999999.99'],
+            'description' => ['nullable', 'string', 'max:1000'],
+            'category' => ['nullable', 'exists:categories,name'],
             'image_url' => ['nullable', 'url', 'max:2048'],
         ];
     }
