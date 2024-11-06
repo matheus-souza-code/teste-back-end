@@ -25,8 +25,8 @@ class StoreProductRequest extends FormRequest
             'name' => ['required', 'string', 'max:255', 'unique:products,name'],
             'price' => ['required', 'numeric', 'between:0,999999.99'],
             'description' => ['required', 'string', 'max:1000'],
-            'category' => ['required'],
-            'image_url' => ['url', 'max:2048'],
+            'category' => ['required', 'exists:categories,name'],
+            'image_url' => ['nullable', 'url', 'max:2048'],
         ];
     }
 }

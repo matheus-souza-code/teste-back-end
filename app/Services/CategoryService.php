@@ -20,6 +20,14 @@ class CategoryService
         return $this->categoryRepository->get($querys);
     }
 
+    public function updateOrCreate(StoreCategoryRequest $request) 
+    {
+        return response()->json([
+            'message' => 'Category imported successfully!',
+            'data' => $this->categoryRepository->updateOrCreate($request->all()),
+        ], 200);
+    }
+
     public function create(StoreCategoryRequest $request) 
     {
         return response()->json([

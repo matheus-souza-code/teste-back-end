@@ -78,7 +78,7 @@
                 </div>
                 <div class="text-left mb-4">
                     <x-input-label value="Image url"/>
-                    <x-text-input type="text" id="input-image_url" name="image_url" class="mt-1 block w-full" required />
+                    <x-text-input type="text" id="input-image_url" name="image_url" class="mt-1 block w-full" />
                     <span id="input-image_url-error" class="input-error mt-2 text-sm text-red-600 space-y-1" style="display:none;"></span>
                 </div>
             </div>

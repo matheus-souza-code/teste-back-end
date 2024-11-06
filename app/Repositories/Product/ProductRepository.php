@@ -50,6 +50,11 @@ class ProductRepository implements ProductRepositoryInterface
         return $this->product->create($data);
     }
 
+    public function updateOrCreate(array $data): Product
+    {
+        return $this->product->updateOrCreate($data);
+    }
+
     public function update(Product $product, array $data): Product
     {
         $product->update($data);

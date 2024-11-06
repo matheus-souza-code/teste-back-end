@@ -38,6 +38,11 @@ class CategoryRepository implements CategoryRepositoryInterface
         return $this->category->create($data);
     }
 
+    public function updateOrCreate(array $data): Category
+    {
+        return $this->category->updateOrCreate($data);
+    }
+
     public function update(Category $category, array $data): Category
     {
         $category->update($data);

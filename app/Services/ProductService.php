@@ -20,6 +20,14 @@ class ProductService
         return $this->productRepository->get($querys);
     }
 
+    public function updateOrCreate(StoreProductRequest $request) 
+    {
+        return response()->json([
+            'message' => 'Product imported successfully!',
+            'data' => $this->productRepository->updateOrCreate($request->all()),
+        ], 200);
+    }
+
     public function create(StoreProductRequest $request) 
     {
         return response()->json([
