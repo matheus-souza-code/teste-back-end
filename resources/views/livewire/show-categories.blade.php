@@ -101,9 +101,10 @@
                     type: selectedCategory ? 'PUT' : 'POST',
                     data: $(this).serialize(),
                     success: function(response) {
-                        $wire.$refresh();
-                        closeModal();
                         showFlashMessage(response.message);
+                        setTimeout(() => {
+                            location.reload();
+                        }, 200);
                     },
                     error: function(xhr) {
                         const errorMessage = xhr.responseJSON?.message;

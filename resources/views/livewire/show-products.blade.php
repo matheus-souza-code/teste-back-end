@@ -11,7 +11,7 @@
                 @forelse ($categories as $category)
                     <option value="{{ $category }}">{{ $category }}</option>
                 @empty
-                    <option value="">No categories available</option>
+                    <option value="">No category available</option>
                 @endforelse
             </select>
             <x-text-input
@@ -71,7 +71,7 @@
                         @forelse ($categories as $category)
                             <option value="{{ $category }}">{{ $category }}</option>
                         @empty
-                            <option value="">No categories available</option>
+                            <option value="">No category available</option>
                         @endforelse
                     </select>
                     <span id="input-category-error" class="input-error mt-2 text-sm text-red-600 space-y-1" style="display:none;"></span>
@@ -132,9 +132,10 @@
                     type: selectedProduct ? 'PUT' : 'POST',
                     data: $(this).serialize(),
                     success: function(response) {
-                        $wire.$refresh();
-                        closeModal();
                         showFlashMessage(response.message);
+                        setTimeout(() => {
+                            location.reload();
+                        }, 200);
                     },
                     error: function(xhr) {
                         const errors = xhr.responseJSON.errors ?? null;
